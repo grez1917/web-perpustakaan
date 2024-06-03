@@ -1,3 +1,3 @@
-## How to import sql file to database;
+## Cara Import Database ke Database Server
 
 mysql -u username -p database_name < file.sql

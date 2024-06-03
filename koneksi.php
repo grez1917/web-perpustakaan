@@ -1,8 +1,11 @@
-<?
-$cnc=mysql_connect("localhost","root","admin");
-$cncdb=mysql_select_db("perpustakaan", $cnc);
-	if(!($cnc && $cncdb)) {
-	echo "Not connected to MySQL";
-	exit();
-	}
-?>
+<?php
+
+try
+{
+	$conn=new PDO("mysql:host=localhost; dbname=perpustakaan", "grez", "password");
+	echo "Connection Success!";
+}
+catch (PDOException $ex)
+{
+	echo "Error: $ex";
+}
