@@ -1,0 +1,105 @@
+@startuml
+' hide the spot
+' hide circle
+
+' avoid problems with angled crows feet
+skinparam linetype ortho
+
+entity "admin" {
+  *id : varchar(255) 
+  --
+  username: varchar(255) 
+  password: varchar(255) 
+  type: char(3) 
+}
+
+entity "anggota" {
+  *id_anggota: int(11) <<auto increment>>
+  name: varchar(255) 
+  sex: char(1) 
+  telp: varchar(15) 
+  alamat: varchar(255) 
+  email: varchar(255) 
+  tgl_entry: date
+  descripsi: text
+  foto: varchar(255) **N**
+  --
+  *id_admin: varchar(255) <<FK>>
+}
+
+entity "buku" {
+  *isbn: varchar(25)
+  judul: varchar(255) **N**
+  tahun: int(11) **N**
+  ---
+  *id_penerbit: varchar(8) <<FK>> **N**
+  *id_pengarang: varhcar(8) <<FK>> **N**
+  *id_katalog: varchar(3) <<FK>> **N** 
+}
+
+entity "config" {
+  *id: int(11) <<auto increment>>
+  --
+  maxLamaPinjam: int(11) **N**
+  dendaPerHari: decimal(19, 0) **N**
+}
+
+entity "detail_peminjam" {
+  *id_pinjam: int(11) <<FK>>
+  *isbn: varchar(25) <<FK>>
+  --
+  qty: int(11) **N**
+}
+
+entity "katalog" {
+  *id_katalog: varchar(3)
+  --
+  nama: varchar(255) **N**
+}
+
+entity "peminjam" {
+  *id_pinjam: int(11) <<auto increment>>
+  tgl_pinjam: date **N**
+  tgl_kembali: date **N**
+  --
+  *id_anggota: int(11) <<FK>> **N**
+}
+
+entity "penerbit" {
+  *id_penerbit: varchar(8)
+  --
+  nama_penerbit: varchar(255) **N**
+  email: varchar(50) **N**
+  telp: varchar(12) **N**
+  alamat: varchar(255) **N**
+}
+
+
+entity "pengarang" {
+  *id_pengarang: varchar(8)
+  --
+  nama_pengarang: varchar(255) **N**
+  email: varchar(50) **N**
+  telp: varchar(12) **N**
+  alamat: varchar(255) **N**
+}
+
+entity "pengembalian" {
+  *id_kembali: int(11) <<auto increment>>
+  tgl_kembali: date **N**
+  denda: decimal(19, 0) **N**
+  --
+  *id_pinjam: int(11) **N**
+}
+
+
+peminjam ||--o{ pengembalian
+anggota ||--o{ peminjam
+buku ||--o{ detail_peminjam
+peminjam ||--o{ detail_peminjam
+katalog ||--o{ buku
+penerbit ||--o{ buku
+pengarang ||--o{ buku
+admin ||--o{ anggota
+
+@enduml
